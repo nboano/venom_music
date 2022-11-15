@@ -7,9 +7,29 @@
 ### Visit the website clicking **[here](https://www.venommusic.tk "here")**.
 <small>(or, if you want to access Venom using TOR, ***[here](http://venom.xdkejwcxdisusd6f5kdpnqkmiwknsukzxhziqdmp3mitgeou3ui4leyd.onion/ "here")***.)</small>
 
+### FUNCTIONS
+- Search whatever song you like (all the songs on YT Music are present, and all the videos on YT too)
+- Group your favourite songs in the "Liked" list.
+- Share your library with others using WebRTC (check Settings)
+- Download any song, and listen offline.
+- Song Lyrics
+- MP3 download with complete metadata (Artwork, Title, Artist, Lyrics)
+- **NO ADS**
+- Installable as a PWA, perfect on IOS and Android
+- Perfect on desktop too
 
+<i class="fa fa-flag"></i> Currently available in <b>ITALIAN</b> and <b>ENGLISH</b>.
 
-<i class="fa fa-flag"></i> Currently available in <b>ITALIAN</b> and <b>ENGLISH</b>
+------------
+### Screenshots
+<table>
+<tr>
+    <td><img src="https://github.com/nboano/venom_music/blob/master/assets/screenshots/screenshot1.PNG?raw=true"/></td>
+    <td><img src="https://github.com/nboano/venom_music/blob/master/assets/screenshots/screenshot2.PNG?raw=true"/></td>
+    <td><img src="https://github.com/nboano/venom_music/blob/master/assets/screenshots/screenshot3.PNG?raw=true"/></td>
+</tr>
+</table>
+
 
 ------------
 
