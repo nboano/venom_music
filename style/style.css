@@ -1,0 +1,264 @@
+@font-face {
+    font-family: CircularSP;
+    src: url(https://encore.scdn.co/fonts/CircularSp-Bold-fe1cfc14b7498b187c78fa72fb72d148.woff2);
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: CircularSP;
+    src: url(https://encore.scdn.co/fonts/CircularSp-Book-4eaffdf96f4c6f984686e93d5d9cb325.woff2);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    font-family: CircularSP, sans-serif;
+    background-color: #121212;
+    color: #ddd;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: space-around;
+    align-items: center;
+    height: 50px;
+}
+
+header > * {
+    margin: 10px;
+}
+
+.disabled {
+    color: #aaa;
+}
+.playing {
+    color: #1db954;
+}
+
+footer {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: space-around;
+    align-items: center;
+    /*    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);*/
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 60px;
+    /*line-height: 60px; /* Vertically center the text there */
+    /*background-color: #111;*/
+    background-color: rgba(11, 11, 11, 0.9);
+}
+
+footer a {
+    display: block;
+    float: left;
+    text-align: center;
+    margin-right: 2%;
+    margin-left: 2%;
+    text-decoration: none;
+    color: #DDD;
+    font-size: 10pt;
+}
+
+footer a svg {
+    fill: #DDD;
+}
+
+footer a:hover {
+    color: #FFF;
+}
+
+footer a:hover svg {
+    fill: #FFF;
+}
+
+input, select, button {
+    height: 24pt;
+    padding: 8px;
+    border-radius: 5px;
+    background-color: rgba(255,255,255,0.5);
+    color: black;
+}
+
+.spoti-btn {
+    background-color: green;
+    font-weight: bold;
+    color: white;
+}
+
+.bottom-btn-cont {
+    position: absolute;
+    bottom: 145px;
+}
+
+.song-cont, .video-cont, .artist-cont, .album-cont {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    /*margin-bottom: 10px;*/
+    font-size: 11pt;
+}
+
+.song-cont > div, .video-cont > div, .artist-cont > div, .album-cont > div {
+    padding: 6px;
+}
+
+img.tbList {
+    width: 50px;
+    height: 50px;
+    display: block;
+}
+
+#pages {
+    max-height: 100vh;
+    overflow: auto;
+}
+
+
+dialog {
+    background-color: rgba(11, 11, 11, 0.7);
+    min-width: 100vw;
+    max-width: 100vw;
+    height: calc(100vh - 60px);
+    overflow: auto;
+    color: #ddd;
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+}
+
+.opz-menu {
+    padding: 10px;
+    display: flex;
+    width: calc(100% - 40px);
+    justify-content: space-between;
+    padding-left: 30px;
+}
+
+#mp3Dialog, #dlDialog {
+    background: rgba(50, 50, 50, 0.7);
+    min-width: 200px;
+    width: 240px;
+    height: 150px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    box-shadow: #121212 4px 4px 4px;
+    border-radius: 8px;
+}
+
+#updatebtn {
+    text-decoration: underline;
+}
+
+#btnDeleteRecents, .shuffleBtn {
+    display: block;
+    background-color: transparent;
+    border: 1px solid #878787;
+    border-radius: 500px;
+    margin: 0 auto;
+    color: #DDD;
+    font-weight: 700;
+    height: 45px;
+    padding: 7px 15px;
+    font-size: 1rem;
+}
+.shuffleBtn {
+    background-color: #1db954;
+    color: white;
+    border: none;
+}
+#mini_player {
+    box-shadow: rgba(10, 10, 10, 0.6) 10px 0px 10px;
+    background-color: rgba(16, 24, 64, 0.6);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    width: calc(100vw - 20px);
+    height: 56px;
+    border-radius: 6px;
+    position: absolute;
+    bottom: 82px;
+    left: 10px;
+    display: flex;
+}
+#mini_player .artist {
+    font-size: 10pt;
+}
+#mini_player .track {
+    color: white;
+}
+#mini_player img {
+    display: block;
+    height: 40px;
+    margin: 8px 12px;
+}
+#mini_player svg {
+    fill: #ddd;
+    margin: 16px 10px;
+}
+#mini_player .trkinf {
+    margin-top: 5px;
+    width: calc(100vw - 104px);
+}
+.search-recent a, .search-recent a:visited {
+    color: #ccc;
+}
+.search_filter span {
+    font-size: 8pt;
+    padding: 6px 9px;
+    border-radius: 500px;
+}
+.search_filter input {
+    display: none;
+}
+.search_filter input:checked + span {
+    background-color: green;
+    color:#fff;
+}
+
+#player {
+    z-index: 3;
+    min-height: 100vh;
+    max-height: 100vh;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+progress::-webkit-progress-value {
+    background: white;
+}
+progress {
+    background: #111;
+}
+
+.btnPlayer {
+    fill: #ddd;
+    transform:scale(1.5);
+    -webkit-transform: scale(1.5);
+    padding: 5px;
+}
+
+
+
+
+

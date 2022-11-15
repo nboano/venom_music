@@ -1,0 +1,554 @@
+<!doctype html>
+<html>
+<head>
+    <title>Venom</title>
+    <link rel="manifest" href="manifest.json" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Venom">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
+
+    <link href="style/style.css" rel="stylesheet" />
+
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
+    <script src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/localforage@1.10.0/dist/localforage.min.js"></script>
+
+    <script src="js/icons.js"></script>
+    <script src="js/lang.js"></script>
+    <script src="js/hash.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/peer.js"></script>
+
+    <script src="api/cors.js"></script>
+    <script src="api/youtube.js"></script>
+    <script src="api/ytmusic.js"></script>
+    <!-- #region ICONE APPLE -->
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="assets/splash_screens/12.9__iPad_Pro_portrait.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="assets/splash_screens/11__iPad_Pro__10.5__iPad_Pro_portrait.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 820px) and (device-height: 1180px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="assets/splash_screens/10.9__iPad_Air_portrait.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="assets/splash_screens/10.5__iPad_Air_portrait.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="assets/splash_screens/10.2__iPad_portrait.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="assets/splash_screens/9.7__iPad_Pro__7.9__iPad_mini__9.7__iPad_Air__9.7__iPad_portrait.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="assets/splash_screens/iPhone_14_Pro_Max__iPhone_14_Max__iPhone_13_Pro_Max__iPhone_12_Pro_Max_portrait.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="assets/splash_screens/iPhone_14_Pro__iPhone_14__iPhone_13_Pro__iPhone_13__iPhone_12_Pro__iPhone_12_portrait.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="assets/splash_screens/iPhone_13_mini__iPhone_12_mini__iPhone_11_Pro__iPhone_XS__iPhone_X_portrait.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="assets/splash_screens/iPhone_11_Pro_Max__iPhone_XS_Max_portrait.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="assets/splash_screens/iPhone_11__iPhone_XR_portrait.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="assets/splash_screens/iPhone_8_Plus__iPhone_7_Plus__iPhone_6s_Plus__iPhone_6_Plus_portrait.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="assets/splash_screens/iPhone_8__iPhone_7__iPhone_6s__iPhone_6__4.7__iPhone_SE_portrait.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="assets/splash_screens/4__iPhone_SE__iPod_touch_5th_generation_and_later_portrait.png">
+    <!-- #endregion -->
+</head>
+<body>
+    <div style="background: linear-gradient(150deg, rgba(24, 48, 120, 0.8) 20px, transparent 220px); height: calc(100vh - 60px);">
+        <div id="pages">
+            <!-- #region PAGINA PRINCIPALE -->
+            <div class="home" style="display: none;">
+                <header>
+                    <h2>
+                        <script>
+                            var h = new Date().getHours();
+                            if (h >= 0 && h <= 6) document.write(lang.current.GOOD_NIGHT);
+                            else if (h >= 7 && h <= 13) document.write(lang.current.GOOD_MORNING);
+                            else if (h >= 14 && h <= 18) document.write(lang.current.GOOD_AFTERNOON);
+                            else document.write(lang.current.GOOD_EVENING);
+                        </script>
+                    </h2>
+                    <a href="#settings">
+                        <svg height="24" width="24" viewBox="0 0 24 24" style="fill: #DDD">
+                            <script>document.write(icons.IMPOSTAZIONI)</script>
+                        </svg>
+                    </a>
+                </header>
+                <main role="main" style="margin: 15px;">
+                    <h1>Prova Venom 12345</h1>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec in felis mi. Donec aliquam sollicitudin enim ac malesuada. Vestibulum vel accumsan orci. Proin at mi lobortis massa facilisis bibendum vitae et libero. Mauris egestas quam erat, non tempus nibh interdum vitae. Nunc sit amet risus eleifend, pellentesque sapien quis, pharetra est. Quisque tincidunt mi mi, at tincidunt erat finibus id. Sed sit amet odio pulvinar, aliquet augue eu, aliquet diam.
+                    </p>
+                </main>
+            </div>
+            <!-- #endregion -->
+            <!-- #region PAGINA RICERCA -->
+            <div class="search" style="display: none;">
+                <header>
+                    <div>
+                        <br />
+                        <h1>
+                            <script>document.write(lang.current.SEARCH)</script>
+                        </h1>
+                    </div>
+                </header>
+                <div style="margin: 15px;">
+                    <form onsubmit="search(document.getElementById('txt_search').value, this.filtro.value); return false;" id="frmCerca">
+                        <div style="width: calc(100vw - 30px); display: flex; align-items: center; border-radius: 5px; background-color: rgba(12, 12, 12, 0.6); padding 6px;">
+                            <button style="margin: 4px 2px 2px 4px; background: transparent; padding: 0;" type="submit">
+                                <svg height="24" width="24" size="24" viewBox="0 0 24 24" style="fill: #ccc;">
+                                    <script>document.write(icons.CERCA_VUOTA)</script>
+                                </svg>
+                            </button>
+                            <input type="search" value="" autofocus id="txt_search" required disabled style="width: 90%; height: 24px; background: transparent; color: white;" onclick="document.getElementById('cont-search_recents').style.display = 'block';document.getElementById('cont-search_results').style.display = 'none';" />
+                        </div>
+                        <div style="margin-top: 5px;">
+                            <!--
+                            <label class="search_filter">
+                                <input type="radio" name="filtro" value=""><span><script>document.write(lang.current.ALL)</script></span>
+                            </label>
+                            -->
+                            <label class="search_filter">
+                                <input type="radio" checked name="filtro" value="SONG"><span>
+                                    <script>document.write(lang.current.SONGS)</script>
+                                </span>
+                            </label>
+                            <label class="search_filter">
+                                <input type="radio" name="filtro" value="VIDEO"><span>
+                                    <script>document.write(lang.current.VIDEOS)</script>
+                                </span>
+                            </label>
+                            <label class="search_filter">
+                                <input type="radio" name="filtro" value="ALBUM"><span>
+                                    <script>document.write(lang.current.ALBUM)</script>
+                                </span>
+                            </label>
+                            <label class="search_filter">
+                                <input type="radio" name="filtro" value="ARTIST"><span>
+                                    <script>document.write(lang.current.ARTISTS)</script>
+                                </span>
+                            </label>
+                        </div>
+                    </form>
+                    <div style="margin: 10px;" id="cont-search_recents">
+                        <h3>
+                            <script>document.write(lang.current.RECENT_SEARCHES)</script>
+                        </h3>
+                        <br />
+                        <div id="search_recents"></div>
+                        <br />
+                        <button onclick="recents.clear();" id="btnDeleteRecents">
+                            <script>document.write(lang.current.DELETE_ALL)</script>
+                        </button>
+                        <br /><br /><br /><br /><br /><br /><br /><br /><br />
+                    </div>
+                    <div style="margin: 10px; display: none;" id="cont-search_results">
+                        <h3>
+                            <script>document.write(lang.current.SEARCH_RESULTS)</script>
+                        </h3>
+                        <br />
+                        <div id="search_results"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- #endregion -->
+            <!-- #region PAGINA ALBUM -->
+            <div class="album" style="display: none;">
+                <div style="margin: 15px;">
+                    <img id="album_img" style="display: block; margin: 20px auto; width: 230px;" />
+                    <h3 id="album_name" style="text-align: center;"></h3>
+                    <p id="album_artist" style="text-align: center;"></p>
+                    <br />
+                    <small id="album_desc" style="font-size: 8pt;"></small>
+                    <br /><br />
+                    <button onclick="Player.Random();" class="shuffleBtn">
+                        <script>document.write(lang.current.SHUFFLE)</script>
+                    </button>
+                    <br /><br />
+                    <div id="album_song_cont"></div>
+                    <br /><br /><br />
+                </div>
+            </div>
+            <!-- #endregion-->
+            <!-- #region PAGINA LIBRERIA -->
+            <div class="library" style="display: none;">
+                <header>
+                    <div>
+                        <br />
+                        <h1>
+                            <script>document.write(lang.current.LIBRARY)</script>
+                        </h1>
+                    </div>
+                </header>
+                <div style="margin: 15px;">
+                    <a href="#liked" style="color: #fff; text-decoration: none;">
+                        <div class='album-cont'>
+                            <div style='width: 20%;'>
+                                <img src='https://t.scdn.co/images/3099b3803ad9496896c43f22fe9be8c4.png' style="max-width: 64px;" />
+                            </div>
+                            <div style='width: 60%;'>
+                                <b>
+                                    <script>document.write(lang.current.LIKED_SONGS_PL)</script>
+                                </b>
+                                <br>
+                            </div>
+                        </div>
+                    </a>
+                    <br />
+                    <a href="#saved" style="color: #fff; text-decoration: none;">
+                        <div class='album-cont'>
+                            <div style='width: 20%;'>
+                                <img src='https://i.scdn.co/image/ab67706c0000bebb37db0579b60f6bd257cae746' style="max-width: 64px;" />
+                            </div>
+                            <div style='width: 60%;'>
+                                <b>
+                                    <script>document.write(lang.current.SAVED_SONGS_PL)</script>
+                                </b>
+                                <br>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <!-- #endregion -->
+            <!-- #region PAGINA BRANI PIACIUTI-->
+            <div class="liked" style="display: none;">
+                <div style="margin: 15px;">
+                    <img src="https://t.scdn.co/images/3099b3803ad9496896c43f22fe9be8c4.png" style="display: block; margin: 20px auto; width: 230px;" />
+                    <h3 style="text-align: center;">
+                        <script>document.write(lang.current.LIKED_SONGS_PL)</script>
+                    </h3>
+                    <br />
+                    <button onclick="Player.Random();" class="shuffleBtn">
+                        <script>document.write(lang.current.SHUFFLE)</script>
+                    </button>
+                    <br /><br />
+                    <div id="liked_songs"></div>
+                    <br /><br /><br />
+                </div>
+            </div>
+            <!-- #endregion -->
+            <!-- #region PAGINA BRANI SCARICATI -->
+            <div class="saved" style="display: none;">
+                <div style="margin: 15px;">
+                    <h3 style="text-align: center;">
+                        <script>document.write(lang.current.SAVED_SONGS_PL)</script>
+                    </h3>
+                    <br />
+                    <button onclick="Player.Random();" class="shuffleBtn">
+                        <script>document.write(lang.current.SHUFFLE)</script>
+                    </button>
+                    <br /><br />
+                    <div id="saved_songs"></div>
+                    <br />
+                    <button class="spoti-btn" style="color: white;" onclick="saveAs(generateBinary(saved.r), 'venom_songs.vnb')">
+                        <script>document.write(lang.current.EXPORT_ALL)</script>...
+                    </button>
+                    <br /><br /><br /><br />
+                </div>
+            </div>
+            <!-- #endregion -->
+            <!-- #region PAGINA IMPOSTAZIONI-->
+            <div class="settings" style="display: none;">
+                <header>
+                    <div>
+                        <br />
+                        <h1>
+                            <script>document.write(lang.current.SETTINGS)</script>
+                        </h1>
+                    </div>
+                    <div>
+                        <a href="#">
+                            <svg height="24" width="24" size="24" viewBox="0 0 24 24" style="fill: #ddd;">
+                                <script>document.write(icons.CROCE)</script>
+                            </svg>
+                        </a>
+                    </div>
+                </header>
+                <div style="margin: 15px;">
+                    <details open>
+                        <summary>
+                            <span style="font-size: 1.5em; font-weight: bold;">
+                                <script>document.write(lang.current.GENERAL_SETTINGS)</script>
+                            </span>
+                        </summary>
+                        <table style="width: 100%;">
+                            <tr>
+                                <td style="width: 40vw;">
+                                    <label for="cmb_language">
+                                        <script>document.write(lang.current.LANGUAGE)</script>
+                                    </label>
+                                </td>
+                                <td style="width: 50vw;">
+                                    <select id="cmb_language" style="width: 90%;">
+                                        <option value="it">
+                                            &#127470;&#127481;
+                                            <script>document.write(lang.current.ITALIAN)</script>
+                                        </option>
+                                        <option value="en">
+                                            &#127468;&#127463;
+                                            <script>document.write(lang.current.ENGLISH)</script>
+                                        </option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 40vw;">
+                                    <label for="cmb_quality">
+                                        <script>document.write(lang.current.AUDIO_QUALITY)</script>
+                                    </label>
+                                </td>
+                                <td style="width: 50vw;">
+                                    <select id="cmb_quality" style="width: 90%;">
+                                        <option value="320">
+                                            <script>document.write(lang.current.AUDIO_QUALITY_MAX)</script>
+                                        </option>
+                                        <option value="256">
+                                            <script>document.write(lang.current.AUDIO_QUALITY_HIGH)</script>
+                                        </option>
+                                        <option value="192" selected>
+                                            <script>document.write(lang.current.AUDIO_QUALITY_NORMAL)</script>
+                                        </option>
+                                        <option value="128">
+                                            <script>document.write(lang.current.AUDIO_QUALITY_MEDIUM)</script>
+                                        </option>
+                                        <option value="64">
+                                            <script>document.write(lang.current.AUDIO_QUALITY_LOW)</script>
+                                        </option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                    </details>
+                    <div class="bottom-btn-cont">
+                        <span>
+                            <script>document.write(lang.current.VERSION)</script>
+                            <code id="txtVersion">
+                            </code>
+                            <br>
+                            <script>document.write(lang.current.SESSION_ID)</script>
+                            <code id="txtSessionId">
+                            </code>
+                        </span>
+                        <br /><br />
+                        <button onclick="Settings.save(); location.reload();" class="spoti-btn">
+                            <script>document.write(lang.current.SETTINGS_SAVE)</script>
+                        </button>
+                        &nbsp;
+                        <button onclick="Settings.reset(); location.reload();" style="background-color: darkkhaki; color: black; font-weight: bold;">
+                            <script>document.write(lang.current.SETTINGS_RESET)</script>
+                        </button>
+                        &nbsp;
+                        <button style="background-color: rgb(24,48,120); color: white; font-weight: bold;" onclick="cacheclear();">
+                            <script>document.write(lang.current.CACHE_CLEAR);</script>
+                        </button>
+                        &nbsp;
+                        <button class="spoti-btn" style="background-color: rgb(255, 100, 0);" onclick="transfer_all_p2p();">
+                            <script>document.write(lang.current.EXPORT_ALL)</script>
+                        </button>
+
+                        <br /><br />
+                        <a href="https://www.instagram.com/kinder.informatica/" target="_blank"><img src="assets/icons/kinder-inf-logo.png" style="height: 40px; margin-left: 5px;" /></a>
+                    </div>
+                </div>
+            </div>
+            <!-- #endregion -->
+        </div>
+        <!-- #region BARRA DI STATO E MENU -->
+        <div id="status-bar" style="width: 100vw; font-size: 8pt; text-align:center; position: absolute; bottom: 60px;"></div>
+        <footer>
+            <a href="#">
+                <svg height="24" width="24" size="24" viewBox="0 0 24 24">
+                    <script>document.write(icons.HOME_VUOTA)</script>
+                </svg>
+                <div>
+                    <script>document.write(lang.current.HOME)</script>
+                </div>
+            </a>
+            <a href="#search">
+                <svg height="24" width="24" size="24" viewBox="0 0 24 24">
+                    <script>document.write(icons.CERCA_VUOTA)</script>
+                </svg>
+                <div>
+                    <script>document.write(lang.current.SEARCH)</script>
+                </div>
+            </a>
+            <a href="#library">
+                <svg height="24" width="24" size="24" viewBox="0 0 24 24">
+                    <script>document.write(icons.LIBRERIA)</script>
+                </svg>
+                <div>
+                    <script>document.write(lang.current.LIBRARY)</script>
+                </div>
+            </a>
+        </footer>
+        <!-- #endregion -->
+        <!-- #region MINI PLAYER -->
+        <div id="mini_player" style="display: none;">
+            <img src="" />
+            <div class="trkinf" onclick="document.querySelector('#player').showModal()">
+                <b class="track"></b>
+                <br />
+                <span class="artist"></span>
+            </div>
+            <svg height="24" width="24" size="24" viewBox="0 0 24 24" class="btnLike">
+                <script>document.write(icons.LIKE)</script>
+            </svg>
+            <svg height="24" width="24" size="24" viewBox="0 0 24 24" class="btnPlayPause">
+                <script>document.write(icons.PLAY)</script>
+            </svg>
+        </div>
+        <!-- #endregion -->
+    </div>
+    <!-- #region MODALE OPZIONI CANZONE-->
+    <dialog id="songMenu">
+        <div style="width: 100%;">
+            <img src="" id="songMenu-cover" style="display: block; width: 180px; margin: 80px auto 10px auto;" />
+            <div style="margin: 0 auto; text-align: center;">
+                <b id="songMenu-name"></b>
+                <br />
+                <span id="songMenu-artist"></span>
+            </div>
+        </div>
+        <br />
+        <br />
+        <div style="width: 100%;">
+            <div class="opz-menu" id="songMenu-btnLike" style="cursor: pointer;">
+                <div>
+                    <svg height="24" width="24" size="24" viewBox="0 0 24 24" style="fill: #ddd;"><script>document.write(icons.LIKE);</script></svg>
+                </div>
+                <div style="width: 80%; margin-left:15px;">
+                    <script>
+                        document.write(lang.current.ADD_TO_FAV)
+                    </script>
+                </div>
+            </div>
+            <div class="opz-menu" id="songMenu-btnQueue" style="cursor: pointer;">
+                <div>
+                    <svg height="24" width="24" size="24" viewBox="0 0 24 24" style="fill: #ddd; margin-left: 4px;"><script>document.write(icons.QUEUE_ADD);</script></svg>
+                </div>
+                <div style="width: 80%; margin-left:15px;">
+                    <script>
+                        document.write(lang.current.QUEUE_ADD)
+                    </script>
+                </div>
+            </div>
+            <div class="opz-menu" id="songMenu-btnDl" style="cursor: pointer;">
+                <div>
+                    <svg height="24" width="24" size="24" viewBox="0 0 24 24" style="fill: #ddd; margin-left: 4px;"><script>document.write(icons.DOWNLOAD);</script></svg>
+                </div>
+                <div style="width: 80%; margin-left:15px;">
+                    <script>
+                        document.write(lang.current.DOWNLOAD_SONG)
+                    </script>
+                </div>
+            </div>
+            <div class="opz-menu" id="songMenu-btnRmDl" style="cursor: pointer;">
+                <div>
+                    <svg height="24" width="24" size="24" viewBox="0 0 24 24" style="fill: red; margin-left: 4px;"><script>document.write(icons.CROCE);</script></svg>
+                </div>
+                <div style="width: 80%; margin-left:15px; color: red;">
+                    <script>
+                        document.write(lang.current.REMOVE_DOWNLOAD_SONG)
+                    </script>
+                </div>
+            </div>
+            <div class="opz-menu" id="songMenu-btnMp3Dl" style="cursor: pointer;">
+                <div>
+                    <svg height="24" width="24" size="24" viewBox="0 0 24 24" style="fill: #ddd; margin-left: 4px;"><script>document.write(icons.DOWNLOAD);</script></svg>
+                </div>
+                <div style="width: 80%; margin-left:15px;">
+                    <script>
+                        document.write(lang.current.DOWNLOAD_MP3)
+                    </script>
+                </div>
+            </div>
+            <div class="opz-menu" style="cursor: pointer;" onclick="document.getElementById('songMenu').close();">
+                <div>
+                    <svg height="24" width="24" size="24" viewBox="0 0 24 24" style="fill: #ddd;"><script>document.write(icons.CROCE);</script></svg>
+                </div>
+                <div style="width: 80%; margin-left:15px;">
+                    <script>
+                        document.write(lang.current.CLOSE)
+                    </script>
+                </div>
+            </div>
+        </div>
+    </dialog>
+    <!-- #endregion -->
+    <!-- #region MODALE DL MP3 -->
+    <dialog id="mp3Dialog">
+        <div style="text-align: center;">
+            <b>
+                <script>
+                    document.write(lang.current.MP3_DOWNLOADING)
+                </script>
+            </b>
+        </div>
+        <div style="margin-left: 5px; margin-top: 10px;">
+            <small id="mp3Dialog-status">
+
+            </small>
+        </div>
+        <progress style="margin-left: 5px; margin-top: 50px; width: 230px; border-radius: 8px;" id="mp3Dialog-progress"></progress>
+        <br />
+        <div style="text-align: center;">
+            <a onclick="document.getElementById('mp3Dialog').close()" style="color: dodgerblue; font-weight: bold;">
+                <script>document.write(lang.current.HIDE)</script>
+            </a>
+        </div>
+    </dialog>
+    <!-- #endregion -->
+    <!-- #region MODALE DL -->
+    <dialog id="dlDialog">
+        <div style="margin-left: 5px; margin-top: 10px;">
+            <small id="dlDialog-status">
+
+            </small>
+        </div>
+        <progress style="margin-left: 5px; margin-top: 50px; width: 230px; border-radius: 8px;" id="dlDialog-progress"></progress>
+    </dialog>
+    <!-- #endregion -->
+    <!--#region MODALE PLAYER-->
+    <dialog id="player">
+        <svg height="24" width="24" size="24" viewBox="0 0 24 24" style="fill: #ddd; display: block; position: absolute; top: 32px; left: 32px;" onclick="this.parentElement.close()">
+            <script>document.write(icons.ARROW_DOWN)</script>
+        </svg>
+        <div style="font-size: 8pt; font-weight: bold; position: absolute; top: 38px; left: 40vw;">
+            <script>document.write(lang.current.NOW_PLAYING)</script>
+        </div>
+        <div style="display: block; position: absolute; top: 100px; left: 8vw; width: 84vw;">
+            <img style="display: block; width: 90%; margin-left: 5%;" />
+            <br />
+            <div>
+                <h1 class="track"></h1>
+                <h3 class="artist"></h3>
+            </div>
+            <br />
+            <div>
+                <progress style="width: 100%; height: 4px; border-radius: 2px;"></progress>
+                <div style="display: flex; justify-content: space-between;">
+                    <small class="trascorsi"></small>
+                    <small class="rimanenti"></small>
+                </div>
+            </div>
+            <br />
+            <div style="display: flex; justify-content: space-between;">
+                <svg height="24" width="24" size="24" viewBox="0 0 24 24" class="btnLike btnPlayer">
+                    <script>document.write(icons.LIKE)</script>
+                </svg>
+                <div>
+                    <svg height="24" width="24" size="24" viewBox="0 0 24 24" onclick="Player.PrevTrack();" class="btnPlayer"><script>document.write(icons.SKIP_BACK)</script></svg>
+                    <svg height="24" width="24" size="24" viewBox="0 0 24 24" class="btnPlayPause btnPlayer">
+                        <script>document.write(icons.PLAY)</script>
+                    </svg>
+                    <svg height="24" width="24" size="24" viewBox="0 0 24 24" onclick="Player.NextTrack();" class="btnPlayer"><script>document.write(icons.SKIP_FW)</script></svg>
+                </div>
+            </div>
+            <br />
+            <div style="border-radius: 15px; padding: 15px; margin: 0 auto;">
+                <h2 style="mix-blend-mode: difference;">
+                    <script>document.write(lang.current.LYRICS)</script>
+                </h2>
+                <br />
+                <div class="lyrics" style="mix-blend-mode: difference;"></div>
+                <br />
+            </div>
+            <br /><br />
+        </div>
+    </dialog>
+    <!--#endregion-->
+</body>
+</html>
