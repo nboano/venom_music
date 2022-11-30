@@ -37,12 +37,18 @@
 
 - ## YouTube Music API *(unofficial)*
     <small>Script: ```api/ytmusic.js```</small>
+
+```javascript
+class YTMusic { ... }
+```
+```javascript
+    static async YTMusic.init();
+```
+
+ Initialises the class. You must include ```cors.js``` and call ```CORS.init(PROXY_URL)``` before executing this method. You must call this method before the others, otherwise they won't work.
+
+```javascript
+    static async YTMusic.search(query, categoryName = "SONG"|"VIDEO"|"ARTIST"|"PLAYLIST"|..., pageLimit = 1);
+```
     
-    <pre><font color="blue">class</font><font color="olivegreen"> YTMusic</font> { ... }</pre>
-    - <code><font color="blue">static async</font> <font color="olivegreen">YTMusic</font>.<font color="orange">init</font>();</code>
-    
-        Initialises the class. You must include <code>cors.js</code> and call <code><font color="olivegreen">CORS</font>.<font color="orange">init</font>(PROXY_URL)</code> before executing this method. You must call this method before the others, otherwise they won't work.
-        
-    - <code><font color="blue">static async</font> <font color="olivegreen">YTMusic</font>.<font color="orange">search</font>(query, categoryName = <font color='red'>"SONG"</font>|<font color='red'>"VIDEO"</font>|<font color='red'>"ARTIST"</font>|<font color='red'>"PLAYLIST"</font>|..., pageLimit = 1);</code>
-    
-        Performs a search on YouTube Music. If a category name is specified, the method will search only that category; If nothing is specified as second param, it will look for all the categories.
+  Performs a search on YouTube Music. If a category name is specified, the method will search only that category; If nothing is specified as second param, it will look for all the categories.
