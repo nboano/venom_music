@@ -503,50 +503,56 @@
     <!-- #endregion -->
     <!--#region MODALE PLAYER-->
     <dialog id="player">
-        <svg height="24" width="24" size="24" viewBox="0 0 24 24" style="fill: #ddd; display: block; position: absolute; top: 32px; left: 32px;" onclick="this.parentElement.close()">
-            <script>document.write(icons.ARROW_DOWN)</script>
-        </svg>
-        <div style="font-size: 8pt; font-weight: bold; position: absolute; top: 38px; left: 40vw;">
-            <script>document.write(lang.current.NOW_PLAYING)</script>
-        </div>
-        <div style="display: block; position: absolute; top: 100px; left: 8vw; width: 84vw;">
-            <img style="display: block; width: 90%; margin-left: 5%;" />
-            <br />
-            <div>
-                <h1 class="track"></h1>
-                <h3 class="artist"></h3>
+        <div style="backdrop-filter: blur(50px); -webkit-backdrop-filter: blur(50px);height: 1000vh;">
+            <svg height="24" width="24" size="24" viewBox="0 0 24 24" style="fill: #ddd; display: block; position: absolute; top: 32px; left: 32px;" onclick="this.parentElement.parentElement.close()">
+                <script>document.write(icons.ARROW_DOWN)</script>
+            </svg>
+            <div style="font-size: 8pt; font-weight: bold; position: absolute; top: 38px; left: 40vw;">
+                <script>document.write(lang.current.NOW_PLAYING)</script>
             </div>
-            <br />
-            <div>
-                <progress style="width: 100%; height: 4px; border-radius: 2px;"></progress>
-                <div style="display: flex; justify-content: space-between;">
-                    <small class="trascorsi"></small>
-                    <small class="rimanenti"></small>
-                </div>
-            </div>
-            <br />
-            <div style="display: flex; justify-content: space-between;">
-                <svg height="24" width="24" size="24" viewBox="0 0 24 24" class="btnLike btnPlayer">
-                    <script>document.write(icons.LIKE)</script>
-                </svg>
-                <div>
-                    <svg height="24" width="24" size="24" viewBox="0 0 24 24" onclick="Player.PrevTrack();" class="btnPlayer"><script>document.write(icons.SKIP_BACK)</script></svg>
-                    <svg height="24" width="24" size="24" viewBox="0 0 24 24" class="btnPlayPause btnPlayer">
-                        <script>document.write(icons.PLAY)</script>
+            <div style="display: block; position: absolute; top: 100px; left: 8vw; width: 84vw;">
+                <img style="display: block; width: 90%; margin-left: 5%;" />
+                <br />
+                <div style="display: flex;align-items: center;align-content: center;justify-content: space-between;">
+                    <div>
+                        <h2 class="track" style="color: white;"></h2>
+                        <p class="artist"></p>
+                    </div>
+                    <svg height="24" width="24" size="24" viewBox="0 0 24 24" class="btnLike btnPlayer">
+                        <script>document.write(icons.LIKE)</script>
                     </svg>
+                </div>
+                <br />
+                <div>
+                    <progress style="width: 100%; height: 4px; border-radius: 2px;"></progress>
+                    <div style="display: flex; justify-content: space-between;">
+                        <small class="trascorsi"></small>
+                        <small class="rimanenti"></small>
+                    </div>
+                </div>
+                <br />
+                <div style="display: flex; justify-content: space-evenly; align-items: center;">
+                    <svg height="24" width="24" size="24" viewBox="0 0 24 24" onclick="Player.PrevTrack();" class="btnPlayer"><script>document.write(icons.SKIP_BACK)</script></svg>
+                    <div style="background-color: #FFF; border-radius: 50%; width: 75px; height: 75px;">
+                        <svg height="24" width="24" size="24" viewBox="0 0 24 24" style="fill: #121212; transform: scale(1.5); -webkit-transform: scale(1.5); margin: 25px;" class="btnPlayPause btnPlayer">
+                            <script>document.write(icons.PLAY)</script>
+                        </svg>
+                    </div>
                     <svg height="24" width="24" size="24" viewBox="0 0 24 24" onclick="Player.NextTrack();" class="btnPlayer"><script>document.write(icons.SKIP_FW)</script></svg>
                 </div>
-            </div>
-            <br />
-            <div style="border-radius: 15px; padding: 15px; margin: 0 auto;">
-                <h2 style="mix-blend-mode: difference;">
-                    <script>document.write(lang.current.LYRICS)</script>
-                </h2>
                 <br />
-                <div class="lyrics" style="mix-blend-mode: difference;"></div>
-                <br />
+                <div style="border-radius: 15px; margin: 0 auto;" class="lyrics-cont">
+                    <div style="height: fit-content; backdrop-filter: blur(40vw); -webkit-backdrop-filter: blur(40vw); padding: 15px; border-radius: 15px;">
+                        <h3>
+                            <script>document.write(lang.current.LYRICS)</script>
+                        </h3>
+                        <br />
+                        <div class="lyrics" style="font-size: 1.5em; font-weight: bold;"></div>
+                        <br />
+                    </div>
+                </div>
+                <br /><br />
             </div>
-            <br /><br />
         </div>
     </dialog>
     <!--#endregion-->

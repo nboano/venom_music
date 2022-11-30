@@ -67,11 +67,13 @@ const Player = {
         }
         document.querySelector("#player .track").innerHTML = truncate(opts.name, 15);
         document.querySelector("#player .artist").innerHTML = truncate(opts.artist, 20);
+        document.querySelector("#player").style.backgroundImage = `url(${resizeCoverImg(opts.thumbnail, 512, 512)})`;
+        document.querySelector("#player .lyrics-cont").style.backgroundImage = `url(${resizeCoverImg(opts.thumbnail, 512, 512)})`;
         get_average_rgb(opts.thumbnail).then(r => {
             var [r, g, b] = r;
             document.querySelector("#mini_player").style.backgroundColor = `rgba(${r},${g},${b},0.6)`;
-            document.querySelector("#player").style.backgroundImage = `linear-gradient(rgb(${r},${g},${b}), transparent)`;
-            document.querySelector("#player .lyrics").parentElement.style.backgroundColor = `rgb(${r},${g},${b})`;
+            //document.querySelector("#player").style.backgroundImage = `linear-gradient(rgb(${r},${g},${b}), transparent)`;
+            //document.querySelector("#player .lyrics").parentElement.style.backgroundColor = `rgb(${r},${g},${b})`;
             //document.querySelector("#player .lyrics").parentElement.style.color = `rgb(${255-r},${255-g},${200-b})`;
             document.querySelector("#mini_player").style.display = "flex";
         }).catch(e => document.querySelector("#mini_player").style.display = "flex");
